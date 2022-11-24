@@ -1,9 +1,11 @@
+import axios from "axios";
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../../layout/DashboardLayout";
 import Main from "../../layout/Main";
 import Blog from "../../Pages/Blog/Blog";
 import AddProduct from "../../Pages/Dashboard/AddProduct/AddProduct";
 import MyOrders from "../../Pages/Dashboard/MyOrders/MyOrders";
+import MyProducts from "../../Pages/Dashboard/MyProducts/MyProducts";
 import Home from '../../Pages/Home/Home'
 import Login from "../../Pages/Login/Login";
 import Registration from "../../Pages/Registration/Registration";
@@ -45,6 +47,11 @@ const router = createBrowserRouter([
             {
                 path: "/dashboard/addproduct",
                 element: <SellerRoute> <AddProduct></AddProduct> </SellerRoute>
+            },
+            {
+                path: "/dashboard/myproducts",
+                element: <SellerRoute> <MyProducts></MyProducts> </SellerRoute>
+
             }
         ]
     }

@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import Spinner from '../../../components/Spinner';
 import { AuthContext } from '../../../contexts/AuthProvider';
 
@@ -9,6 +10,7 @@ const AddProduct = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const imageHostKey = process.env.REACT_APP_imgbb_key;
 
+    // load the products categories.............
     const { data: categories, isLoading } = useQuery({
         queryKey: ['categories'],
         queryFn: async () => {
@@ -17,8 +19,6 @@ const AddProduct = () => {
             return data;
         }
     })
-
-    console.log(categories);
 
     if (isLoading) {
         return <Spinner></Spinner>
@@ -53,6 +53,21 @@ const AddProduct = () => {
                         paid: false,
                     }
                     console.log("product", product);
+
+                    // added product to the database.......
+                    fetch('http://localhost:5000/addproduct', {
+                        method: "POST",
+                        headers: {
+                            'content-type': 'application/json',
+                            authorization: `bearer ${localStorage.getItem('accessToken')}`
+                        },
+                        body: JSON.stringify(product)
+                    })
+                        .then(res => res.json())
+                        .then(result => {
+                            console.log(result);
+                            toast.success(`${data.name} is added successfully`);
+                        })
 
 
                 }

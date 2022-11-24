@@ -1,14 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthProvider';
 
 const Navbar = () => {
+    const { user, logOut } = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => {
+                toast.success("Logged out!")
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
 
     const menuItems = <>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/blog">Blog</Link></li>
-        <li><Link to="/registration">Sign Up</Link></li>
-        <li><Link to="/login">Login</Link></li>
-        <li><Link to="/dashboard">Dashboard</Link></li>
+        {
+            user?.uid ?
+                <>
+                    <li><Link to="/dashboard">Dashboard</Link></li>
+                    <li><button className='btn text-white rounded-lg btn-primary' onClick={handleLogOut} >LogOut</button></li>
+                </>
+                :
+                <>
+                    <li><Link to="/registration">Sign Up</Link></li>
+                    <li><Link to="/login">Login</Link></li>
+                </>
+        }
+
+
+
+
 
 
 
@@ -28,6 +54,7 @@ const Navbar = () => {
                 </div>
                 <Link to="/" className="btn btn-ghost normal-case text-xl">Easy Buy</Link>
             </div>
+
             <div className="navbar-center hidden lg:flex">
                 {/* for larger device  */}
                 <ul className="menu menu-horizontal p-0">

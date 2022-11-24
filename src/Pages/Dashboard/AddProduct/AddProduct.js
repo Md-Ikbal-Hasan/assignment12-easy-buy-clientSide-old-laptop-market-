@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Spinner from '../../../components/Spinner';
 import { AuthContext } from '../../../contexts/AuthProvider';
 
@@ -9,6 +10,8 @@ const AddProduct = () => {
     const { user } = useContext(AuthContext);
     const { register, formState: { errors }, handleSubmit } = useForm();
     const imageHostKey = process.env.REACT_APP_imgbb_key;
+
+    const navigate = useNavigate();
 
     // load the products categories.............
     const { data: categories, isLoading } = useQuery({
@@ -67,6 +70,7 @@ const AddProduct = () => {
                         .then(result => {
                             console.log(result);
                             toast.success(`${data.name} is added successfully`);
+                            navigate('/dashboard/myproducts')
                         })
 
 
@@ -177,7 +181,7 @@ const AddProduct = () => {
                     <label className="label">
                         <span className="label-text">Years of Used</span>
                     </label>
-                    <input type="number" placeholder="year of used" {...register("yearOfUsed", {
+                    <input type="text" placeholder="year of used" {...register("yearOfUsed", {
                         required: "yearOfUsed is required"
                     })}
                         className="input input-bordered w-full max-w-xs" />

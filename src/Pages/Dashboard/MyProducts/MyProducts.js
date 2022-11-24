@@ -1,23 +1,49 @@
+import { async } from '@firebase/util';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import Spinner from '../../../components/Spinner';
 import { AuthContext } from '../../../contexts/AuthProvider';
 
 const MyProducts = () => {
     const { user } = useContext(AuthContext);
-    const [products, setProducts] = useState([]);
-    const [productsLoading, setProductsLoading] = useState(true);
+    // const [products, setProducts] = useState([]);
+    // const [productsLoading, setProductsLoading] = useState(true);
 
-    useEffect(() => {
-        axios.get(`http://localhost:5000/products/${user?.email}`).then(data => {
-            setProducts(data.data);
-            console.log(data.data);
-            setProductsLoading(false);
-        })
-    }, [user?.email])
 
-    if (productsLoading) {
+    const { data: products = [], refetch, isLoading } = useQuery({
+        queryKey: ['products', user?.email],
+        queryFn: async () => {
+            const res = await fetch(`http://localhost:5000/products/${user?.email}`);
+            const data = await res.json();
+            return data;
+        }
+    })
+
+    if (isLoading) {
         return <Spinner></Spinner>
+    }
+
+
+    const handleAdvertise = (id) => {
+        const url = `http://localhost:5000/products/advertise/${id}`;
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount > 0) {
+                    toast.success("This products is advertised successfully");
+                    refetch();
+                }
+            })
+
+
     }
 
 
@@ -29,7 +55,7 @@ const MyProducts = () => {
                 <table className="table w-full">
                     <thead>
                         <tr>
-                            <th> serial </th>
+                            <th></th>
                             <th>Image</th>
                             <th>Name</th>
                             <th>Status</th>
@@ -39,28 +65,52 @@ const MyProducts = () => {
                     <tbody>
 
                         {
-                            products.map((product, index) => {
-                                return (
-                                    <tr key={product._id}>
-                                        <th>{index + 1} </th>
-                                        <td>
-                                            <div className="flex items-center space-x-3">
-                                                <div className="avatar">
-                                                    <div className="mask mask-squircle w-12 h-12">
-                                                        <img src={product.image} alt="product" />
+                            products.length ?
+
+
+                                products.map((product, index) => {
+                                    return (
+                                        <tr key={product._id}>
+                                            <th>{index + 1} </th>
+                                            <td>
+                                                <div className="flex items-center space-x-3">
+                                                    <div className="avatar">
+                                                        <div className="mask mask-squircle w-12 h-12">
+                                                            <img src={product.image} alt="product" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td> {product.name} </td>
-                                        <td>  {product.paid ? 'sold' : 'available'} </td>
-                                        <th>
-                                            <button className="btn btn-ghost btn-xs">Do it</button>
-                                        </th>
-                                    </tr>
+                                            </td>
+                                            <td> {product.name} </td>
+                                            <td>
+                                                {product.paid ?
+                                                    <span className='text-green-600 font-semibold'>Sold</span>
+                                                    : 'available'}
+                                            </td>
+                                            <th>
+                                                {
+                                                    product.paid ?
+                                                        <span className='text-green-600 font-semibold'>Already sold</span> :
+                                                        <>
+                                                            {
+                                                                product.advertise ?
+                                                                    <button className='btn btn-success btn-xs'>Advertised</button>
+                                                                    :
+                                                                    <button onClick={() => handleAdvertise(product._id)} className="btn  btn-xs">Advertise Product</button>
 
-                                )
-                            })
+                                                            }
+
+                                                        </>
+                                                }
+
+                                            </th>
+                                        </tr>
+
+                                    )
+                                })
+                                :
+                                <tr><td className='text-center text-2xl'>No data available</td></tr>
+
                         }
 
 

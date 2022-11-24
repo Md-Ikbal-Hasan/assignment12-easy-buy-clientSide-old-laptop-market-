@@ -19,7 +19,8 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <Home></Home>
+                element: <Home></Home>,
+                loader: () => axios.get('http://localhost:5000/advertisedProduct')
             },
             {
                 path: '/registration',

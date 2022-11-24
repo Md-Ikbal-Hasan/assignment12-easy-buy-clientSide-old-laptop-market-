@@ -54,6 +54,7 @@ const AddProduct = () => {
                         yearOfUsed: data.yearOfUsed,
                         sellerEmail: user?.email,
                         paid: false,
+                        dateOfPost: new Date()
                     }
                     console.log("product", product);
 
@@ -124,7 +125,7 @@ const AddProduct = () => {
                         {
                             categories.map(category => <option
                                 key={category._id}
-                                value={category.name}
+                                value={category._id}
 
                             >{category.name} </option>)
                         }

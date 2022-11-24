@@ -1,17 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { FaCheckCircle } from "react-icons/fa";
 const Home = () => {
     const { data: products } = useLoaderData();
+    const [categories, setCategories] = useState([]);
     console.log(products);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/categories')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setCategories(data);
+            })
+    }, [])
 
     return (
         <div className='m-5'>
+            <h3 className='text-2xl text-center font-bold'>Category</h3>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+                {
+                    categories.map(category => {
+                        return (
+                            <button key={category._id}
+                                className='p-8 m-2 bg-primary text-2xl text-white text-center font-bold rounded-lg' >
+                                {category.name}
+                            </button>
+                        )
+                    })
+                }
+
+            </div>
 
             {
                 products.length ?
-                    <>
-                        <h2 className="text-3xl">Advertised products</h2>
+                    <section className='my-5'>
+                        <h2 className="text-2xl font-bold text-center my-5">Advertised products</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {
 
@@ -43,10 +67,12 @@ const Home = () => {
 
                             }
                         </div>
-                    </>
+                    </section>
                     :
                     <></>
             }
+
+
         </div>
     );
 };

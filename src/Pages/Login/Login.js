@@ -49,7 +49,9 @@ const Login = () => {
         setLoginError('');
         signInWithGoogle()
             .then(result => {
-                toast.success("User logged in successfully")
+                const user = result.user;
+                toast.success("User logged in successfully");
+                setLoginUserEmail(user.email);
             })
             .catch(error => {
                 setLoginError(error.message)
@@ -112,7 +114,7 @@ const Login = () => {
                     </form>
 
                     {/* google sing in  */}
-                    <p className='text-center text-sm'>new to Easy Buy?Registration <Link to='/registration' className='text-secondary'>Registration</Link> </p>
+                    <p className='text-center text-sm'>new to Easy Buy? <Link to='/registration' className='text-secondary'>Registration</Link> </p>
                     <div className="divider">OR</div>
                     <button onClick={handleGoogleSignIn} className='btn btn-outline btn-primary w-full'>Continue With Google</button>
 

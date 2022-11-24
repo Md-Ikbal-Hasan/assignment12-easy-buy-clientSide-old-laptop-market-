@@ -31,7 +31,7 @@ const Login = () => {
                 const user = result.user;
                 console.log("Logged in user:", user);
                 setLoginUserEmail(data.email);
-                // navigate(from, { replace: true })
+                navigate(from, { replace: true })
             })
             .catch(error => {
                 setLoginError(error.message)
@@ -52,6 +52,8 @@ const Login = () => {
                 const user = result.user;
                 toast.success("User logged in successfully");
                 setLoginUserEmail(user.email);
+                navigate(from, { replace: true })
+
             })
             .catch(error => {
                 setLoginError(error.message)

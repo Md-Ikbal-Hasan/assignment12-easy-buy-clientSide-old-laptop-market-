@@ -8,6 +8,7 @@ import MyOrders from "../../Pages/Dashboard/MyOrders/MyOrders";
 import MyProducts from "../../Pages/Dashboard/MyProducts/MyProducts";
 import Home from '../../Pages/Home/Home'
 import Login from "../../Pages/Login/Login";
+import Products from "../../Pages/Products/Products";
 import Registration from "../../Pages/Registration/Registration";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SellerRoute from "../SellerRoute/SellerRoute";
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
             {
                 path: '/blog',
                 element: <Blog></Blog>
+            },
+            {
+                path: '/products/:id',
+                element: <PrivateRoute> <Products></Products> </PrivateRoute>,
+                loader: ({ params }) => fetch(`http://localhost:5000/categories/${params.id}`)
             },
         ]
 

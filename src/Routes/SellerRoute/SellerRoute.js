@@ -9,6 +9,7 @@ const SellerRoute = ({ children }) => {
     const [isSeller, isSellerLoading] = useSeller(user?.email);
     const location = useLocation();
 
+
     if (loading || isSellerLoading) {
         return <Spinner></Spinner>
     }

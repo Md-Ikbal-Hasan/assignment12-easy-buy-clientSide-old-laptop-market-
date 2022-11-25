@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -20,9 +20,11 @@ const Login = () => {
     const navigate = useNavigate();
     const from = location.state?.from?.pathname || '/';
 
-    if (token) {
-        navigate(from, { replace: true })
-    }
+    useEffect(() => {
+        if (token) {
+            navigate(from, { replace: true })
+        }
+    }, [token, from, navigate])
 
 
 
@@ -48,6 +50,11 @@ const Login = () => {
         signInWithGoogle()
             .then(result => {
                 const user = result.user;
+                const role = 'buyer';
+
+                // jodi user login page theke 1st time google diye login kore tar info database a save hobe...
+                saveUser(user.displayName, user.email, role)
+
                 toast.success("User logged in successfully");
                 setLoginUserEmail(user.email);
                 navigate(from, { replace: true })
@@ -56,6 +63,31 @@ const Login = () => {
             .catch(error => {
                 setLoginError(error.message)
             })
+    }
+
+
+    // save user info to the database
+    const saveUser = (name, email, role) => {
+        const user = { name, email, role };
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    // setCreatedUserEmail(email);
+                    setLoginUserEmail(email)
+
+                }
+            })
+            .catch(error => {
+                toast.error(error.message);
+            })
+
     }
 
 

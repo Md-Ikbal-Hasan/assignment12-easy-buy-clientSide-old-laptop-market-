@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -19,10 +19,15 @@ const Registration = () => {
     const from = location.state?.from?.pathname || '/';
 
     // user signup korar por token pele then navigate hobe onno page a
-    if (token) {
-        navigate(from, { replace: true })
-    }
+    useEffect(() => {
+        if (token) {
+            navigate(from, { replace: true })
+        }
+    }, [token, from, navigate])
 
+
+
+    console.log(token);
 
     // create user with email,password
     const handleSignUp = (data) => {
@@ -81,7 +86,8 @@ const Registration = () => {
                 const user = result.user;
                 const role = 'buyer'
                 saveUser(user.displayName, user.email, role);
-                // setCreatedUserEmail(user.email);
+                setCreatedUserEmail(user.email);
+
                 toast.success("User created successfully")
 
             })
@@ -89,6 +95,8 @@ const Registration = () => {
                 setSignUpError(error.message)
             })
     }
+
+
 
 
 

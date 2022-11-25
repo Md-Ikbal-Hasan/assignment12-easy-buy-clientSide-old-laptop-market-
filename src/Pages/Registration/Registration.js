@@ -81,7 +81,7 @@ const Registration = () => {
                 const user = result.user;
                 const role = 'buyer'
                 saveUser(user.displayName, user.email, role);
-                setCreatedUserEmail(user.email);
+                // setCreatedUserEmail(user.email);
                 toast.success("User created successfully")
 
             })

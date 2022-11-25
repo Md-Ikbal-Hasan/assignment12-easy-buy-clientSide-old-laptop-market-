@@ -54,6 +54,8 @@ const AddProduct = () => {
                         yearOfUsed: data.yearOfUsed,
                         sellerEmail: user?.email,
                         paid: false,
+                        booked: false,
+                        advertise: false,
                         dateOfPost: new Date()
                     }
                     console.log("product", product);

@@ -1,36 +1,60 @@
 import React, { useContext } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 
-const BookingModal = ({ bookingProduct }) => {
+const BookingModal = ({ bookingProduct, setBookingProduct }) => {
     const { user } = useContext(AuthContext);
-    console.log("in modal:", bookingProduct);
-    const { name, resellPrice } = bookingProduct
+
+    const { name, resellPrice } = bookingProduct;
+
+    const navigate = useNavigate();
 
 
     const handleBooking = (e) => {
         e.preventDefault();
         const form = e.target;
-        // const productName = form.name;
-        // const productPrice = form.price;
-        // const productId = bookingProduct._id;
-        // const buyerName = user.displayName
-        // const buyerEmail = form.user.email;
-        // const buyerPhone = form.phone;
-        // const meetingLocation = form.meetingLocation;
-        // const sellerEmail = bookingProduct.sellerEmail;
 
         const booking = {
+            productImage: bookingProduct.image,
             productName: form.name.value,
             productPrice: form.price.value,
             productId: bookingProduct._id,
+            categoryId: bookingProduct.category,
             buyerName: form.buyerName.value,
             buyerEmail: form.buyerEmail.value,
             buyerPhone: form.buyerPhone.value,
             meetingLocation: form.meetingLocation.value,
-            sellerEmail: bookingProduct.sellerEmail
+            sellerEmail: bookingProduct.sellerEmail,
+            paid: false
+
         }
-        console.log('Booking:', booking);
+
+        // add booking product to the database..........
+        fetch('http://localhost:5000/bookingProduct', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify(booking)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    toast.success("Product booked successfully!");
+                    setBookingProduct(null);
+                    navigate('/dashboard')
+                }
+            })
+            .catch(error => {
+                toast.error(error.message);
+                console.log(error);
+            })
+
     }
+
+
 
     return (
         <>
@@ -50,9 +74,9 @@ const BookingModal = ({ bookingProduct }) => {
 
                         <input type="text" name='buyerEmail' defaultValue={user?.email} disabled placeholder="Buyer email" className="input w-full input-bordered" />
 
-                        <input type="text" name='buyerPhone' placeholder="Your phone" className="input w-full input-bordered" />
+                        <input type="text" name='buyerPhone' required placeholder="Your phone" className="input w-full input-bordered" />
 
-                        <input type="text" name='meetingLocation' placeholder="meeting location" className="input w-full input-bordered" />
+                        <input type="text" name='meetingLocation' required placeholder="meeting location" className="input w-full input-bordered" />
 
                         <input className='w-full btn btn-primary text-white' type="submit" />
 

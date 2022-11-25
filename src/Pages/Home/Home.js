@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import { FaCheckCircle } from "react-icons/fa";
+import toast from 'react-hot-toast';
 const Home = () => {
     const { data: products } = useLoaderData();
     const [categories, setCategories] = useState([]);
@@ -10,6 +11,10 @@ const Home = () => {
             .then(res => res.json())
             .then(data => {
                 setCategories(data);
+            })
+            .catch(error => {
+                console.log(error);
+                toast.error(error.message)
             })
     }, [])
 

@@ -130,7 +130,7 @@ const Registration = () => {
                                     <span className="label-text">Email</span>
                                 </label>
                                 <input {...register("email", { required: "Email is required" })}
-                                    type="email" placeholder="name" className="input input-bordered" />
+                                    type="email" placeholder="email" className="input input-bordered" />
                                 {errors.email && <p className='text-red-600'>{errors.email?.message}</p>}
                             </div>
 
@@ -146,7 +146,7 @@ const Registration = () => {
                                         required: "Password is required",
                                         minLength: { value: 6, message: "Password should be 6 charaters or longer" }
                                     })}
-                                    type="password" placeholder="name" className="input input-bordered" />
+                                    type="password" placeholder="password" className="input input-bordered" />
                                 {errors.password && <p className='text-red-600'>{errors.password?.message}</p>}
 
 

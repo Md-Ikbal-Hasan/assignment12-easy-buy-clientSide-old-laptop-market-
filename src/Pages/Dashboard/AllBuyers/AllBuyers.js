@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
+import toast from 'react-hot-toast';
 import Spinner from '../../../components/Spinner';
 
 const AllBuyers = () => {
 
-    const { data: allbuyer = [], isLoading } = useQuery({
+    const { data: allbuyer = [], refetch, isLoading } = useQuery({
         queryKey: ['allbuyer'],
         queryFn: async () => {
             const res = await fetch('http://localhost:5000/allbuyer', {
@@ -21,6 +22,31 @@ const AllBuyers = () => {
 
     if (isLoading) {
         return <Spinner></Spinner>
+    }
+
+    const handleDeleteUser = (id) => {
+        console.log(id);
+
+        fetch(`http://localhost:5000/users/${id}`, {
+            method: "DELETE",
+            headers: {
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.deletedCount === 1) {
+                    toast.success("User Deleted Successfully!");
+                    refetch()
+                }
+            })
+            .catch(error => {
+                toast.error(error.message)
+                console.log(error);
+            })
+
+
     }
 
 
@@ -47,7 +73,7 @@ const AllBuyers = () => {
                                     <td>{buyer.name}</td>
                                     <td>{buyer.email}</td>
                                     <td>
-                                        <button className='btn btn-sm btn-error'>Delete</button>
+                                        <button onClick={() => handleDeleteUser(buyer._id)} className='btn btn-sm btn-error'>Delete</button>
 
                                     </td>
                                 </tr>)

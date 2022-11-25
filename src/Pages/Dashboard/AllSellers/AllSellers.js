@@ -48,6 +48,32 @@ const AllSellers = () => {
     }
 
 
+    const handleDeleteUser = (id) => {
+        console.log(id);
+
+        fetch(`http://localhost:5000/users/${id}`, {
+            method: "DELETE",
+            headers: {
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.deletedCount === 1) {
+                    toast.success("User Deleted Successfully!");
+                    refetch()
+                }
+            })
+            .catch(error => {
+                toast.error(error.message)
+                console.log(error);
+            })
+
+
+    }
+
+
     return (
         <div className='m-5'>
             <h2 className='text-3xl'>All Sellers : {allseller.length} </h2>
@@ -80,7 +106,7 @@ const AllSellers = () => {
                                     }
 
                                     <td>
-                                        <button className='btn btn-sm btn-error'>Delete</button>
+                                        <button onClick={() => handleDeleteUser(seller._id)} className='btn btn-sm btn-error'>Delete</button>
                                     </td>
                                 </tr>)
 

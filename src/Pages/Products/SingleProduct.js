@@ -13,8 +13,8 @@ const SingleProduct = ({ product, setBookingProduct }) => {
                     <p> <b>Location:</b> {product.location}</p>
                 </div>
                 <div className='flex md:justify-between flex-col md:flex-row'>
-                    <p> <b>Resell Price:</b> {product.resellPrice} tk </p>
-                    <p> <b>Original Price:</b> {product.originalPrice} tk</p>
+                    <p> <b>Resell Price:</b> {product.resellPrice} $ </p>
+                    <p> <b>Original Price:</b> {product.originalPrice} $</p>
                 </div>
 
                 <div className='flex items-center'>

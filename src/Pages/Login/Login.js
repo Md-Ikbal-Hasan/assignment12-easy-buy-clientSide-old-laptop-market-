@@ -13,9 +13,6 @@ const Login = () => {
     const [loginUserEmail, setLoginUserEmail] = useState('');
     const [token] = useToken(loginUserEmail);
 
-    console.log("token in login : ", token);
-    console.log("loginuserEmail: ", loginUserEmail);
-
     const location = useLocation();
     const navigate = useNavigate();
     const from = location.state?.from?.pathname || '/';
@@ -34,8 +31,7 @@ const Login = () => {
         signIn(data.email, data.password)
             .then(result => {
                 const user = result.user;
-                console.log("Logged in user:", user);
-                console.log("email: ", user.email);
+
                 setLoginUserEmail(user.email);
                 navigate(from, { replace: true })
             })

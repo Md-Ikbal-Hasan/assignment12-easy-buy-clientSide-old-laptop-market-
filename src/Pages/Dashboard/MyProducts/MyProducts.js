@@ -1,7 +1,6 @@
-import { async } from '@firebase/util';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+
+import React, { useContext } from 'react';
 import toast from 'react-hot-toast';
 import Spinner from '../../../components/Spinner';
 import { AuthContext } from '../../../contexts/AuthProvider';
@@ -21,9 +20,41 @@ const MyProducts = () => {
         }
     })
 
-    if (isLoading) {
-        return <Spinner></Spinner>
+
+    const handleDeleteProduct = (id) => {
+
+        const confirmation = window.confirm("Are you sure to delete this product?")
+
+        if (confirmation) {
+            fetch(`http://localhost:5000/products/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'content-type': 'application/json',
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("deleted data:", data);
+                    if (data.deletedCount === 1) {
+                        toast.success("Product deleted successfully!")
+                        refetch();
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error);
+                    toast.error(error.message)
+                })
+
+
+        }
+
+
+
+
     }
+
 
 
     const handleAdvertise = (id) => {
@@ -46,6 +77,11 @@ const MyProducts = () => {
 
     }
 
+    if (isLoading) {
+        return <Spinner></Spinner>
+    }
+
+
 
     return (
         <div>
@@ -60,6 +96,7 @@ const MyProducts = () => {
                             <th>Name</th>
                             <th>Status</th>
                             <th>Advertise</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -104,6 +141,8 @@ const MyProducts = () => {
                                                 }
 
                                             </th>
+
+                                            <td>  <button onClick={() => handleDeleteProduct(product._id)} className='btn btn-xs btn-error'>Delete</button>  </td>
                                         </tr>
 
                                     )

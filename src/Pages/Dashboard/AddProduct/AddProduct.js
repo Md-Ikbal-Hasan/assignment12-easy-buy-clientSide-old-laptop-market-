@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Spinner from '../../../components/Spinner';
 import { AuthContext } from '../../../contexts/AuthProvider';
 
@@ -162,7 +162,7 @@ const AddProduct = () => {
                     <label className="label">
                         <span className="label-text">Resell Price</span>
                     </label>
-                    <input type="number" placeholder="resell price" {...register("resellPrice", {
+                    <input type="number" placeholder="resell price $" {...register("resellPrice", {
                         required: "resellPrice is required"
                     })}
                         className="input input-bordered w-full max-w-xs" />
@@ -174,7 +174,7 @@ const AddProduct = () => {
                         <span className="label-text">Original Price</span>
                     </label>
                     <input type="number" placeholder="original price" {...register("originalPrice", {
-                        required: "originalPrice is required"
+                        required: "originalPrice is required $"
                     })}
                         className="input input-bordered w-full max-w-xs" />
                     {errors.originalPrice && <p className='text-red-600'>{errors.originalPrice?.message}</p>}

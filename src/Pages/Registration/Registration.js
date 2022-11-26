@@ -27,7 +27,7 @@ const Registration = () => {
 
 
 
-    console.log(token);
+
 
     // create user with email,password
     const handleSignUp = (data) => {

@@ -18,7 +18,9 @@ const AllSellers = () => {
         }
     })
 
-    console.log(allseller);
+
+
+
 
     if (isLoading) {
         return <Spinner></Spinner>

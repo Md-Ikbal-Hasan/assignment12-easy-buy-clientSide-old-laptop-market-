@@ -16,7 +16,6 @@ const MyOrders = () => {
         }
     })
 
-    console.log(bookingProducts);
 
     if (isLoading) {
         return <Spinner></Spinner>

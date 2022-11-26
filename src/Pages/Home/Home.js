@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
-import { FaCheckCircle } from "react-icons/fa";
 import toast from 'react-hot-toast';
 import SingleProduct from '../Products/SingleProduct';
 import BookingModal from '../BookingModal/BookingModal';

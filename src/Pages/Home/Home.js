@@ -3,6 +3,7 @@ import { Link, useLoaderData } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import SingleProduct from '../Products/SingleProduct';
 import BookingModal from '../BookingModal/BookingModal';
+import banner from '../../assets/images/banner.jpg'
 const Home = () => {
     const { data } = useLoaderData();
     const [categories, setCategories] = useState([]);
@@ -22,6 +23,23 @@ const Home = () => {
 
     return (
         <div className='m-5'>
+
+            <div className="hero my-12 ">
+                <div className="hero-content flex-col lg:flex-row ">
+                    <img src={banner} className="md:max-w-sm rounded-lg shadow-2xl" alt='banner img' />
+                    <div>
+                        <h1 className="text-3xl md:text-5xl font-bold">Buy second hand laptop <br /> with affordable cost</h1>
+
+                        <p className="py-6">
+                            Are you searching for used laptop with affordable cost? This is the right place for you. You can find awesome , good quality laptop which condition is absouletly fine. Buy your laptop.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+
+
             <h3 className='text-2xl text-center font-bold'>Category</h3>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                 {

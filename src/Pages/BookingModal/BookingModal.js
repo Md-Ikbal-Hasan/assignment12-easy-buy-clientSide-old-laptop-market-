@@ -6,6 +6,7 @@ import { AuthContext } from '../../contexts/AuthProvider';
 const BookingModal = ({ bookingProduct, setBookingProduct }) => {
     const { user } = useContext(AuthContext);
 
+
     const { name, resellPrice } = bookingProduct;
 
     const navigate = useNavigate();
@@ -52,6 +53,7 @@ const BookingModal = ({ bookingProduct, setBookingProduct }) => {
                 console.log(error);
             })
 
+
     }
 
 
@@ -78,7 +80,7 @@ const BookingModal = ({ bookingProduct, setBookingProduct }) => {
 
                         <input type="text" name='meetingLocation' required placeholder="meeting location" className="input w-full input-bordered" />
 
-                        <input className='w-full btn btn-primary text-white' type="submit" />
+                        <button className='w-full btn btn-primary text-white' type="submit" > Book</button>
 
                     </form>
 

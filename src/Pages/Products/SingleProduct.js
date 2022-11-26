@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthProvider';
 
 const SingleProduct = ({ product, setBookingProduct }) => {
+
+    const { user } = useContext(AuthContext);
+
+
+
+
     return (
         <div key={product._id} className="card  border">
             <figure><img src={product.image} className="h-96 w-full" alt="Shoes" /></figure>
@@ -20,8 +28,16 @@ const SingleProduct = ({ product, setBookingProduct }) => {
                 <div className='flex items-center'>
                     <span className='mr-1'><b>Seller:</b> {product.sellerEmail}</span> <FaCheckCircle className='text-blue-600' />
                 </div>
+                {
+                    user?.email ? <label onClick={() => setBookingProduct(product)} htmlFor="booking-modal" className="btn btn-primary">Book Product</label>
+                        :
+                        <Link to='/login' className='btn  btn-success'>  Book Product  </Link>
+                }
 
-                <label onClick={() => setBookingProduct(product)} htmlFor="booking-modal" className="btn btn-primary">Book Product</label>
+
+
+
+
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import Spinner from '../../../components/Spinner';
 import { AuthContext } from '../../../contexts/AuthProvider';
@@ -17,6 +18,36 @@ const MyOrders = () => {
     })
 
 
+    const handleDeleteBooking = (id, productId) => {
+        console.log(`id : ${id} , prod: ${productId}`)
+
+        const confirmation = window.confirm("Are you sure to delete this order?");
+
+        if (confirmation) {
+            fetch(`http://localhost:5000/bookingProduct/${id}/${productId}`, {
+                method: "DELETE",
+                headers: {
+                    'content-type': 'application/json',
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`,
+                    productId: productId
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.deletedCount === 1) {
+                        toast.success("Order deleted successfully!");
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
+
+
+    }
+
+
     if (isLoading) {
         return <Spinner></Spinner>
     }
@@ -25,6 +56,7 @@ const MyOrders = () => {
     return (
         <div className='m-5'>
             <h2 className="text-3xl my-3">My Orders: {bookingProducts.length}</h2>
+            <small className='text-red-500'> *you can delete those order which are not paid yet </small>
 
 
             <div className="overflow-x-auto w-full">
@@ -74,7 +106,7 @@ const MyOrders = () => {
                                             </td>
 
 
-                                            <td> <button className='btn btn-sm btn-danger'>Delete</button> </td>
+                                            <td> <button disabled={product.paid} onClick={() => handleDeleteBooking(product._id, product.productId)} className='btn btn-sm btn-danger'  >Delete</button> </td>
 
 
                                         </tr>

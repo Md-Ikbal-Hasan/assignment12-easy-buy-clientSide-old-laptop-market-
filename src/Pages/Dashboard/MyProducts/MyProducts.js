@@ -35,7 +35,7 @@ const MyProducts = () => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log("deleted data:", data);
+
                     if (data.deletedCount === 1) {
                         toast.success("Product deleted successfully!")
                         refetch();

@@ -111,7 +111,7 @@ const AllSellers = () => {
                                 </tr>)
 
                                 :
-                                <tr><td className='text-center text-2xl'>Please order some products</td></tr>
+                                <tr><td className='text-center text-2xl'>No Data available</td></tr>
 
                         }
 

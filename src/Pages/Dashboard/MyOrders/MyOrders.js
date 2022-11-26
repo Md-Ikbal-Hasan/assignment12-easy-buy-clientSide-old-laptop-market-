@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Spinner from '../../../components/Spinner';
 import { AuthContext } from '../../../contexts/AuthProvider';
 
@@ -60,7 +61,20 @@ const MyOrders = () => {
                                             </td>
                                             <td> {product.productName} </td>
                                             <td> {product.productPrice} </td>
-                                            <td> <button className='btn btn-sm btn-primary'>Pay</button> </td>
+                                            <td>
+                                                {
+                                                    product.paid ?
+                                                        <button className='btn btn-sm btn-success'>Paid</button>
+
+                                                        :
+                                                        <Link to={`/dashboard/payment/${product._id}`}>
+                                                            <button className='btn btn-sm btn-primary'>Pay</button>
+                                                        </Link>
+
+                                                }
+                                            </td>
+
+
                                             <td> <button className='btn btn-sm btn-danger'>Delete</button> </td>
 
 

@@ -27,24 +27,32 @@ const AllBuyers = () => {
     const handleDeleteUser = (id) => {
         console.log(id);
 
-        fetch(`http://localhost:5000/users/${id}`, {
-            method: "DELETE",
-            headers: {
-                authorization: `bearer ${localStorage.getItem('accessToken')}`
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if (data.deletedCount === 1) {
-                    toast.success("User Deleted Successfully!");
-                    refetch()
+        const confirmation = window.confirm("Are you sure to delete this user?");
+        if (confirmation) {
+
+            fetch(`http://localhost:5000/users/${id}`, {
+                method: "DELETE",
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
                 }
             })
-            .catch(error => {
-                toast.error(error.message)
-                console.log(error);
-            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.deletedCount === 1) {
+                        toast.success("User Deleted Successfully!");
+                        refetch()
+                    }
+                })
+                .catch(error => {
+                    toast.error(error.message)
+                    console.log(error);
+                })
+
+
+        }
+
+
 
 
     }

@@ -11,7 +11,11 @@ const MyOrders = () => {
     const { data: bookingProducts = [], isLoading } = useQuery({
         queryKey: ['bookingProduct', user?.email],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/bookingProduct/${user?.email}`);
+            const res = await fetch(`http://localhost:5000/bookingProduct/${user?.email}`, {
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
+                }
+            });
             const data = res.json();
             return data
         }
@@ -19,7 +23,6 @@ const MyOrders = () => {
 
 
     const handleDeleteBooking = (id, productId) => {
-        console.log(`id : ${id} , prod: ${productId}`)
 
         const confirmation = window.confirm("Are you sure to delete this order?");
 
@@ -34,7 +37,6 @@ const MyOrders = () => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     if (data.deletedCount === 1) {
                         toast.success("Order deleted successfully!");
                     }

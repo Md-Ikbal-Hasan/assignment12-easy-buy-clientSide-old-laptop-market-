@@ -32,7 +32,7 @@ const MyOrders = () => {
                 headers: {
                     'content-type': 'application/json',
                     authorization: `bearer ${localStorage.getItem('accessToken')}`,
-                    productId: productId
+
                 }
             })
                 .then(res => res.json())

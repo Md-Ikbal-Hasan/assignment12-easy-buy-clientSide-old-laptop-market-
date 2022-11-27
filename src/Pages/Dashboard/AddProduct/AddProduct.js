@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -8,10 +8,25 @@ import { AuthContext } from '../../../contexts/AuthProvider';
 
 const AddProduct = () => {
     const { user } = useContext(AuthContext);
+    const [userinfo, setUserinfo] = useState('');
     const { register, formState: { errors }, handleSubmit } = useForm();
     const imageHostKey = process.env.REACT_APP_imgbb_key;
 
     const navigate = useNavigate();
+
+    // load the user information from the database.......
+    useEffect(() => {
+        fetch(`http://localhost:5000/users/${user?.email}`)
+            .then(res => res.json())
+            .then(data => {
+                setUserinfo(data);
+
+            })
+    }, [user?.email])
+
+    console.log("userinfo", userinfo);
+    console.log("verified: ", userinfo.verified);
+
 
     // load the products categories.............
     const { data: categories, isLoading } = useQuery({
@@ -52,13 +67,16 @@ const AddProduct = () => {
                         resellPrice: data.resellPrice,
                         originalPrice: data.originalPrice,
                         yearOfUsed: data.yearOfUsed,
-                        sellerEmail: user?.email,
+                        sellerEmail: userinfo?.email,
+                        verifiedSeller: userinfo?.verified ? true : false,
                         paid: false,
                         booked: false,
                         advertise: false,
                         dateOfPost: new Date()
                     }
-                    console.log("product", product);
+
+                    console.log("product:", product);
+
 
                     // added product to the database.......
                     fetch('http://localhost:5000/addproduct', {
@@ -71,7 +89,7 @@ const AddProduct = () => {
                     })
                         .then(res => res.json())
                         .then(result => {
-                            console.log(result);
+
                             toast.success(`${data.name} is added successfully`);
                             navigate('/dashboard/myproducts')
                         })

@@ -13,6 +13,7 @@ import Home from '../../Pages/Home/Home'
 import Login from "../../Pages/Login/Login";
 import Products from "../../Pages/Products/Products";
 import Registration from "../../Pages/Registration/Registration";
+import ErrorPage from "../../Pages/Shared/ErrorPage/ErrorPage";
 import AdminRoute from "../AdminRoute/AdminRoute";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SellerRoute from "../SellerRoute/SellerRoute";
@@ -20,12 +21,12 @@ const router = createBrowserRouter([
     {
         path: '/',
         element: <Main></Main>,
-        errorElement: <h1 className="text-5xl">This is error page</h1>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: '/',
                 element: <Home></Home>,
-                loader: () => axios.get('http://localhost:5000/advertisedProduct')
+                loader: () => axios.get('https://easy-buy-server.vercel.app/advertisedProduct')
             },
             {
                 path: '/registration',
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
             {
                 path: '/products/:id',
                 element: <PrivateRoute>  <Products></Products>   </PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/categories/${params.id}`)
+                loader: ({ params }) => fetch(`https://easy-buy-server.vercel.app/categories/${params.id}`)
             },
         ]
 
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
     {
         path: '/dashboard',
         element: <PrivateRoute> <DashboardLayout></DashboardLayout> </PrivateRoute>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: "/dashboard",
@@ -75,7 +77,7 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/payment/:id',
                 element: <Payment></Payment>,
-                loader: ({ params }) => fetch(`http://localhost:5000/singleBookingProduct/${params.id}`)
+                loader: ({ params }) => fetch(`https://easy-buy-server.vercel.app/singleBookingProduct/${params.id}`)
             }
         ]
     }

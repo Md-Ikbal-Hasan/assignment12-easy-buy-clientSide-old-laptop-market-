@@ -14,7 +14,7 @@ const MyProducts = () => {
     const { data: products = [], refetch, isLoading } = useQuery({
         queryKey: ['products', user?.email],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/products/${user?.email}`, {
+            const res = await fetch(`https://easy-buy-server.vercel.app/products/${user?.email}`, {
                 headers: {
                     authorization: `bearer ${localStorage.getItem('accessToken')}`
                 }
@@ -30,7 +30,7 @@ const MyProducts = () => {
         const confirmation = window.confirm("Are you sure to delete this product?")
 
         if (confirmation) {
-            fetch(`http://localhost:5000/products/${id}`, {
+            fetch(`https://easy-buy-server.vercel.app/products/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'content-type': 'application/json',
@@ -62,7 +62,7 @@ const MyProducts = () => {
 
 
     const handleAdvertise = (id) => {
-        const url = `http://localhost:5000/products/advertise/${id}`;
+        const url = `https://easy-buy-server.vercel.app/products/advertise/${id}`;
         fetch(url, {
             method: 'PUT',
             headers: {

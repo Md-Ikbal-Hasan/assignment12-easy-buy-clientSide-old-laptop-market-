@@ -8,7 +8,7 @@ const AllBuyers = () => {
     const { data: allbuyer = [], refetch, isLoading } = useQuery({
         queryKey: ['allbuyer'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/allbuyer', {
+            const res = await fetch('https://easy-buy-server.vercel.app/allbuyer', {
                 headers: {
                     authorization: `bearer ${localStorage.getItem('accessToken')}`
                 }
@@ -30,7 +30,7 @@ const AllBuyers = () => {
         const confirmation = window.confirm("Are you sure to delete this user?");
         if (confirmation) {
 
-            fetch(`http://localhost:5000/users/${id}`, {
+            fetch(`https://easy-buy-server.vercel.app/users/${id}`, {
                 method: "DELETE",
                 headers: {
                     authorization: `bearer ${localStorage.getItem('accessToken')}`

@@ -11,7 +11,7 @@ const MyOrders = () => {
     const { data: bookingProducts = [], isLoading } = useQuery({
         queryKey: ['bookingProduct', user?.email],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/bookingProduct/${user?.email}`, {
+            const res = await fetch(`https://easy-buy-server.vercel.app/bookingProduct/${user?.email}`, {
                 headers: {
                     authorization: `bearer ${localStorage.getItem('accessToken')}`
                 }
@@ -27,7 +27,7 @@ const MyOrders = () => {
         const confirmation = window.confirm("Are you sure to delete this order?");
 
         if (confirmation) {
-            fetch(`http://localhost:5000/bookingProduct/${id}/${productId}`, {
+            fetch(`https://easy-buy-server.vercel.app/bookingProduct/${id}/${productId}`, {
                 method: "DELETE",
                 headers: {
                     'content-type': 'application/json',

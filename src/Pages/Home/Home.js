@@ -10,7 +10,7 @@ const Home = () => {
     const [bookingProduct, setBookingProduct] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:5000/categories')
+        fetch('https://easy-buy-server.vercel.app/categories')
             .then(res => res.json())
             .then(data => {
                 setCategories(data);

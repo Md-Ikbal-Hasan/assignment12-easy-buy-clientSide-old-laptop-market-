@@ -16,7 +16,7 @@ const AddProduct = () => {
 
     // load the user information from the database.......
     useEffect(() => {
-        fetch(`http://localhost:5000/users/${user?.email}`)
+        fetch(`https://easy-buy-server.vercel.app/users/${user?.email}`)
             .then(res => res.json())
             .then(data => {
                 setUserinfo(data);
@@ -32,7 +32,7 @@ const AddProduct = () => {
     const { data: categories, isLoading } = useQuery({
         queryKey: ['categories'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/categories');
+            const res = await fetch('https://easy-buy-server.vercel.app/categories');
             const data = res.json();
             return data;
         }
@@ -79,7 +79,7 @@ const AddProduct = () => {
 
 
                     // added product to the database.......
-                    fetch('http://localhost:5000/addproduct', {
+                    fetch('https://easy-buy-server.vercel.app/addproduct', {
                         method: "POST",
                         headers: {
                             'content-type': 'application/json',

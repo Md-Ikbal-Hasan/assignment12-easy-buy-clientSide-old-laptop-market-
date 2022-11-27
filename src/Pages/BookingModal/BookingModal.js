@@ -32,7 +32,7 @@ const BookingModal = ({ bookingProduct, setBookingProduct }) => {
         }
 
         // add booking product to the database..........
-        fetch('http://localhost:5000/bookingProduct', {
+        fetch('https://easy-buy-server.vercel.app/bookingProduct', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',

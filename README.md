@@ -17,10 +17,7 @@
 2. admin can delete any seller or buyer
 3. admin can verify a seller
 
-### examiners
-adminEmail: ikbal@gmail.com
 
-adminPassword : 123456
 
 ### Live website link
 https://easy-buy-17dbe.web.app/

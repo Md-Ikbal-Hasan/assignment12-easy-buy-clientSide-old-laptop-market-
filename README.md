@@ -22,4 +22,7 @@
 ### Live website link
 https://easy-buy-17dbe.web.app/
 
+## server side
+https://github.com/Md-Ikbal-Hasan/assignment12-easy-buy-serverSide
+
 

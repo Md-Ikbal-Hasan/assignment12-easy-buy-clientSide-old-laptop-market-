@@ -1,8 +1,7 @@
 import { CardElement, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useEffect, useState } from 'react';
-
-
-
+import { useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
 
 
 const CheckoutForm = ({ bookingProduct }) => {
@@ -13,7 +12,13 @@ const CheckoutForm = ({ bookingProduct }) => {
     const [processing, setProcessing] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
-    const { _id, productPrice, buyerName, buyerEmail, sellerEmail, productId } = bookingProduct
+    const { _id, productPrice, buyerName, buyerEmail, sellerEmail, productId } = bookingProduct;
+
+    const paymentRef = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => paymentRef.current,
+        documentTitle: 'payment details'
+    })
 
     useEffect(() => {
         // Create PaymentIntent as soon as the page loads
@@ -154,10 +159,13 @@ const CheckoutForm = ({ bookingProduct }) => {
             <p className='text-red-500'>  {cardError} </p>
 
             {
-                success && <div>
-                    <p className='text-green-500' > {success} </p>
-                    <p>Your transactionId : <span className='font-bold'> {transactionId} </span> </p>
-                </div>
+                success && <>
+                    <div ref={paymentRef}>
+                        <p className='text-green-500' > {success} </p>
+                        <p>Your transactionId : <span className='font-bold'> {transactionId} </span> </p>
+                    </div>
+                    <button onClick={handlePrint} className='btn btn-success'>Download payment info</button>
+                </>
             }
 
 
